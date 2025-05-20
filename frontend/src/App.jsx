@@ -7,7 +7,7 @@ import CreatePage from './home/CreatePage.jsx';
 import History from './home/History.jsx';
 import Message from './message/Message.jsx';
 import Chat from './message/Chat.jsx';
-// import ComputersCanvas from './ComputersCanvas.jsx';
+import ComputersCanvas from './ComputersCanvas.jsx';
 
 const App = () => {
   return (
