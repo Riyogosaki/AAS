@@ -7,11 +7,7 @@ import { ConnectDb } from "./config/db.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import path from "path";
-import { fileURLToPath } from 'url';
 
-// Fix __dirname in ESM
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -28,12 +24,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", profileRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/api/message", messageRoutes);
-
-// Serve frontend in production
+const __dirname = path.resolve();
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "../frontend/dist")));
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
 	});
 }
 
