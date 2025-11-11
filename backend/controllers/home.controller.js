@@ -1,5 +1,4 @@
 import HomeModel from "../models/home.model.js";
-import UserModel from "../models/user.model.js";  
 
 
 export const createPost = async (req, res) => {

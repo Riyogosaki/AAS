@@ -1,4 +1,4 @@
-import { deletePost, createPost,getAllPostsData,getUserPost, updatePost} from "../controllers/home.controller.js";
+import { deletePost, createPost,getAllPostsData,getUserPost} from "../controllers/home.controller.js";
 import express from "express";
 import { protectRoute } from "../middleware/protectRoute.js";
 const router = express.Router();

@@ -4,5 +4,5 @@ import { protectRoute } from '../middleware/protectRoute.js';
 const router =express.Router();
 
 router.get("/userprofile/:username",protectRoute,GetMe);
-router.get("/allprofile",protectRoute,GetUser);
+router.get("/allprofile",GetUser);
 export default router;
