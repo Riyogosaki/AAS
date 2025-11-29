@@ -14,33 +14,28 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// Fix dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Middlewares
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// API Routes
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", profileRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/api/message", messageRoutes);
 
-// Serve Frontend in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// Serve frontend in production
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  // Catch-all
-  app.get("*", (req, res) => {
-    
-    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-  });
-}
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
 
 app.listen(PORT, () => {
   ConnectDb();
-  console.log(`Server is Running on Port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

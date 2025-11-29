@@ -7,15 +7,12 @@ import CreatePage from './home/CreatePage.jsx';
 import History from './home/History.jsx';
 import Message from './message/Message.jsx';
 import Chat from './message/Chat.jsx';
-import ComputersCanvas from './ComputersCanvas.jsx';
 
 const App = () => {
   return (
 <div >
 <Routes className="text-white-500">
-  {/* <Route path='/' element={<ComputersCanvas></ComputersCanvas>}></Route> */}
-  <Route path='/' element={<Home></Home>}></Route>
-  <Route path='/Signup' element={<Signup></Signup>}></Route>
+  <Route path='/' element={<Signup></Signup>}></Route>
   <Route path='/login' element={<Login></Login>}></Route>
   <Route path='/home' element={<Home></Home>}></Route>
   <Route path='/profile/:username' element={<Profile></Profile>}></Route>
