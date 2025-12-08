@@ -8,4 +8,3 @@ router.post("/:_id",protectRoute,createMessage);
 router.get("/:id",protectRoute,getMessage);
 
 export default router;
-

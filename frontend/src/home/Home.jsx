@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 const Home = () => {
   const [display, setDisplay] = useState([]);
   const [clickedBtn, setClickedBtn] = useState(null);
-  const [expandedPost, setExpandedPost] = useState(null);
   const navigate = useNavigate();
 
   const response = async () => {
@@ -62,22 +61,49 @@ const Home = () => {
 
     switch (mediaType) {
       case "video":
+        // Extract file extension for proper MIME type
+        const fileExtension = url.split('.').pop().split('?')[0].toLowerCase();
+        const mimeTypes = {
+          'mp4': 'video/mp4',
+          'webm': 'video/webm',
+          'ogg': 'video/ogg',
+          'mov': 'video/quicktime',
+          'avi': 'video/x-msvideo',
+          'mkv': 'video/x-matroska'
+        };
+        const mimeType = mimeTypes[fileExtension] || 'video/mp4';
+
         return (
-          <video 
-            className={className}
-            controls
-            muted
-            preload="metadata"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <source src={url} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <div className="relative">
+            <video 
+              className={className}
+              controls
+              playsInline
+              preload="metadata"
+              onClick={(e) => {
+                e.stopPropagation();
+                const video = e.target;
+                // Toggle play/pause when video container is clicked
+                if (video.paused) {
+                  video.play();
+                } else {
+                  video.pause();
+                }
+              }}
+              onContextMenu={(e) => e.stopPropagation()}
+            >
+              <source src={url} type={mimeType} />
+              Your browser does not support the video tag.
+            </video>
+            <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded z-10">
+              Click to play/pause
+            </div>
+          </div>
         );
       
       case "youtube":
         const videoId = getYouTubeId(url);
-        const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
         return (
           <iframe
             src={embedUrl}
@@ -105,90 +131,6 @@ const Home = () => {
     }
   };
 
-  const ExpandedView = ({ post, onClose }) => {
-    return (
-      <motion.div
-        className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-      >
-        <motion.div
-          className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
-            <div className="bg-gray-900 flex items-center justify-center p-8">
-              <div className="w-full max-w-2xl">
-                {renderMedia(
-                  post.post, 
-                  post.title, 
-                  "w-full h-96 lg:h-[500px] object-contain rounded-lg"
-                )}
-              </div>
-            </div>
-            
-            <div className="p-8 flex flex-col justify-between">
-              <div>
-                <h2 className="text-4xl font-bold text-gray-800 mb-4">
-                  {post.title}
-                </h2>
-                
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold">
-                      {post.userId?.username?.charAt(0)?.toUpperCase() || 'U'}
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-800">
-                        {post.userId?.username || 'Unknown User'}
-                      </p>
-                      <p className="text-gray-500 text-sm">
-                        {formatTime(post.createdAt)}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                    detectMediaType(post.post) === 'image' 
-                      ? 'bg-yellow-100 text-yellow-800'
-                      : detectMediaType(post.post) === 'video'
-                      ? 'bg-orange-100 text-orange-800'
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {detectMediaType(post.post).toUpperCase()}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-lg font-semibold text-lg"
-                  onClick={() => {
-                    navigate('/login');
-                  }}
-                >
-                  Login to Create Your Own Posts
-                </motion.button>
-                
-                <button
-                  className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-                  onClick={onClose}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
-    );
-  };
 
   return (
     <div
@@ -253,7 +195,7 @@ const Home = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          Discover amazing content from our  community. Images, videos, and YouTube clips - all in one place.
+          Discover amazing content from our community. Images, videos, and YouTube clips - all in one place.
         </motion.p>
       </div>
 
@@ -280,14 +222,11 @@ const Home = () => {
                 y: -10,
                 transition: { type: "spring", stiffness: 400 }
               }}
-              onClick={() => setExpandedPost(postObj)}
             >
-              {/* Media Container */}
               <div className="relative overflow-hidden rounded-lg bg-black/20">
                 {renderMedia(postObj.post, postObj.title)}
                 
-                {/* Media Type Badge */}
-                <div className="absolute top-3 right-3">
+                <div className="absolute top-3 right-3 z-20">
                   <span className={`px-2 py-1 rounded-full text-xs font-bold ${
                     detectMediaType(postObj.post) === 'image' 
                       ? 'bg-yellow-500 text-white'
@@ -299,12 +238,11 @@ const Home = () => {
                   </span>
                 </div>
                 
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center pointer-events-none">
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     whileHover={{ scale: 1, opacity: 1 }}
-                    className="bg-yellow-400/90 rounded-full p-4"
+                    className="bg-yellow-400/90 rounded-full p-4 pointer-events-none"
                   >
                     <svg className="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -357,12 +295,7 @@ const Home = () => {
         )}
       </div>
 
-      {expandedPost && (
-        <ExpandedView 
-          post={expandedPost} 
-          onClose={() => setExpandedPost(null)} 
-        />
-      )}
+      
     </div>
   );
 };
