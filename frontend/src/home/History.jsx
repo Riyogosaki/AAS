@@ -8,7 +8,7 @@ const History = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await fetch("/api/home/user", {
+        const response = await fetch("https://aas-i4rm.onrender.com/api/home/user", {
           credentials: "include",
         });
         const data = await response.json();

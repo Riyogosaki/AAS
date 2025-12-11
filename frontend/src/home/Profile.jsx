@@ -8,13 +8,13 @@ const Profile = () => {
   const [userdisplay, setUserDisplay] = useState([]);
 
   const fetchUserProfile = async () => {
-    const res = await fetch(`/api/user/userprofile/${username}`);
+    const res = await fetch(`https://aas-i4rm.onrender.com/api/user/userprofile/${username}`);
     const data = await res.json();
     setProfile(data.datauser);
   };
 
   const response = async () => {
-    const res = await fetch("/api/home/user", { credentials: "include" });
+    const res = await fetch("https://aas-i4rm.onrender.com/api/home/user", { credentials: "include" });
     const data = await res.json();
     setUserDisplay(data.data);
   };

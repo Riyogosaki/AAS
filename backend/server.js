@@ -6,7 +6,7 @@ import messageRoutes from "./routes/message.route.js";
 import { ConnectDb } from "./config/db.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import cors from cors;
+import cors from "cors";
 
 dotenv.config();
 

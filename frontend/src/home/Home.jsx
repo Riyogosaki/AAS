@@ -8,7 +8,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const response = async () => {
-    const res = await fetch("/api/home");
+    const res = await fetch("https://aas-i4rm.onrender.com/api/home");
     const data = await res.json();
     setDisplay(data.data || []);
   };

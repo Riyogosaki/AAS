@@ -64,7 +64,7 @@ const CreatePage = () => {
     }
 
     try {
-      const res = await fetch("/api/home", {
+      const res = await fetch("https://aas-i4rm.onrender.com/api/home", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +96,7 @@ const CreatePage = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch("/api/home/user", { credentials: "include" });
+      const res = await fetch("https://aas-i4rm.onrender.com/api/home/user", { credentials: "include" });
       const data = await res.json();
       setUserDisplay(data.data || []);
     } catch (err) {
@@ -114,7 +114,7 @@ const CreatePage = () => {
     setDeletingId(id);
 
     try {
-      const res = await fetch(`/api/home/${id}`, {
+      const res = await fetch(`https://aas-i4rm.onrender.com/api/home/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
