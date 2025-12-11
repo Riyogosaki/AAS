@@ -12,11 +12,11 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
-
 app.use(cors({
-  origin: "*",
+  origin: "http://localhost:5173", // Vite
   credentials: true,
 }));
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
