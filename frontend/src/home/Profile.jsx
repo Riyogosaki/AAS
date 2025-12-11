@@ -14,7 +14,7 @@ const Profile = () => {
   };
 
   const response = async () => {
-    const res = await fetch("https://aasapi/home/user", { credentials: "include" });
+    const res = await fetch("https://aas-i4rm.onrender.com/api/home/user", { credentials: "include" });
     const data = await res.json();
     setUserDisplay(data.data);
   };
