@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 app.use(cors({
-  origin: "https://levi-seven.vercel.app/", // Vite
+  origin: "https://levi-seven.vercel.app", // Vite
   credentials: true,
 }));
 
