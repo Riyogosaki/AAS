@@ -1,4 +1,4 @@
-import { Link, Route, Routes, } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import Home from './home/Home.jsx';
 import Login from './signup/Login.jsx';
 import Signup from './signup/Signup.jsx';
@@ -10,18 +10,19 @@ import Chat from './message/Chat.jsx';
 
 const App = () => {
   return (
-<div >
-<Routes className="text-white-500">
-  <Route path='/' element={<Home></Home>}></Route>
-  <Route path='/signup' element={<Signup></Signup>}></Route>
-  <Route path='/login' element={<Login></Login>}></Route>
-  <Route path='/profile/:username' element={<Profile></Profile>}></Route>
-  <Route path='/createpost' element={<CreatePage></CreatePage>}></Route>
-  <Route path='/history' element={<History></History>}></Route>
-   <Route path="/messages" element={<Message />} />
-  <Route path="/messages/:id" element={<Chat/>} />
-</Routes>
+    <div>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/profile/:username' element={<Profile />} />
+        <Route path='/createpost' element={<CreatePage />} />
+        <Route path='/history' element={<History />} />
+        <Route path='/messages' element={<Message />} />
+        <Route path='/messages/:id' element={<Chat />} />
+      </Routes>
     </div>
-  )
+  );
 }
-export default App
+
+export default App;
