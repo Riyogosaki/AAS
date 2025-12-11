@@ -49,7 +49,7 @@ const Chat = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await fetch(`/api/message/${receiverId}`, {
+      const res = await fetch(`https://aas-i4rm.onrender.com/api/message/${receiverId}`, {
         method: "GET",
         credentials: "include",
       });
@@ -83,7 +83,7 @@ const Chat = () => {
 
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/message/${receiverId}`, {
+      const res = await fetch(`https://aas-i4rm.onrender.com/api/message/${receiverId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

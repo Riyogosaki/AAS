@@ -15,7 +15,7 @@ const Login = () => {
   const handleForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("https://aas-i4rm.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

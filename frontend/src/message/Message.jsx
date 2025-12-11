@@ -49,7 +49,7 @@ const Message = () => {
   const fetchProfiles = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("/api/user/allprofile", { 
+      const res = await fetch("https://aas-i4rm.onrender.com/api/user/allprofile", { 
         credentials: "include" 
       });
       if (!res.ok) throw new Error("Failed to fetch profiles");
